@@ -10,22 +10,24 @@ Projects
 </ul>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
-axios.get("https://api.github.com/users/hkwi/repos").then(o => {
-	var base = document.getElementById("projects");
-	o.data.forEach(d => {
-		if(d.has_pages && d.name != "hkwi.github.io"){
-			li = document.createElement("li");
-			a = document.createElement("a");
-			a.text = d.name;
-			a.href = d.name;
-			li.appendChild(a);
-			li.appendChild(document.createTextNode(" : "));
-			if(d.description){
-				li.appendChild(document.createTextNode(d.description));
+axios.get("https://api.github.com/users/hkwi").then(o => {
+	var url = "https://api.github.com/users/hkwi/repos?page=1&per_page="+o.data.public_repos;
+	axios.get(url).then(o => {
+		var base = document.getElementById("projects");
+		o.data.forEach(d => {
+			if(d.has_pages && d.name != "hkwi.github.io"){
+				li = document.createElement("li");
+				a = document.createElement("a");
+				a.text = d.name;
+				a.href = d.name;
+				li.appendChild(a);
+				li.appendChild(document.createTextNode(" : "));
+				if(d.description){
+					li.appendChild(document.createTextNode(d.description));
+				}
+				base.appendChild(li);
 			}
-			base.appendChild(li);
-			console.log(d);
-		}
+		});
 	});
 });
 </script>
