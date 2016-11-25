@@ -1,0 +1,55 @@
+---
+layout: default
+---
+
+<div class="home">
+
+Projects
+
+<ul id="projects">
+</ul>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+axios.get("https://api.github.com/users/hkwi/repos").then(o => {
+	var base = document.getElementById("projects");
+	o.data.forEach(d => {
+		if(d.has_pages && d.name != "hkwi.github.io"){
+			li = document.createElement("li");
+			a = document.createElement("a");
+			a.text = d.name;
+			a.href = d.name;
+			li.appendChild(a);
+			li.appendChild(document.createTextNode(" : "));
+			if(d.description){
+				li.appendChild(document.createTextNode(d.description));
+			}
+			base.appendChild(li);
+			console.log(d);
+		}
+	});
+});
+</script>
+
+<!--
+
+  <h1 class="page-heading">Posts</h1>
+  
+  {{ content }}
+
+  <ul class="post-list">
+    {% for post in site.posts %}
+      <li>
+        <span class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
+
+        <h2>
+          <a class="post-link" href="{{ post.url | relative_url }}">{{ post.title | escape }}</a>
+        </h2>
+      </li>
+    {% endfor %}
+  </ul>
+
+  <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | relative_url }}">via RSS</a></p>
+
+-->
+
+</div>
